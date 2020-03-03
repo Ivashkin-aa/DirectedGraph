@@ -3,18 +3,12 @@ package sbstu;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GraphTest {
-    Graph testGraph = new Graph();
-    private Map<Vertex, List<Vertex>> neighbors = new HashMap<Vertex, List<Vertex>>();
-    private Map<List<Vertex>, Integer> edge = new HashMap<List<Vertex>, Integer>();
+    private Graph testGraph = new Graph();
 
     @BeforeEach
     void init() {
@@ -45,10 +39,10 @@ class GraphTest {
 
         testGraph.deleteEdge("Москва", "Крым");
 
-        List<Vertex> exp = new ArrayList<>();
-        exp.add(new Vertex("Рязань"));
+        Set<Vertex> exp = new HashSet<>();
         exp.add(new Vertex("Санкт-Петербург"));
         exp.add(new Vertex("The capital of great britain"));
+        exp.add(new Vertex("Рязань"));
 
         assertEquals(exp, testGraph.outgoing("Москва"));
     }
@@ -76,11 +70,11 @@ class GraphTest {
 
         testGraph.deleteVertex("Олег");
 
-        List<Vertex> ex = new ArrayList<>();
-        ex.add(new Vertex("Варя"));
-        ex.add(new Vertex("Макс"));
+        Set<Vertex> ex = new HashSet<>();
         ex.add(new Vertex("Камила"));
         ex.add(new Vertex("Женя"));
+        ex.add(new Vertex("Варя"));
+        ex.add(new Vertex("Макс"));
 
 
         assertEquals(ex,testGraph.incoming("Артем"));

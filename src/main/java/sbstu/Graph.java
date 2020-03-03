@@ -3,12 +3,11 @@ package sbstu;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
 public class Graph {
     private Map<Vertex, List<Vertex>> neighbors = new HashMap<Vertex, List<Vertex>>();
     private Map<List<Vertex>, Integer> edge = new HashMap<List<Vertex>, Integer>();
 
-    private boolean hasVertex(String vertexName) {
+    public boolean hasVertex(String vertexName) {
         Vertex ver = new Vertex(vertexName);
         for (List<Vertex> v : neighbors.values())
             if (v.contains(ver) || neighbors.get(ver) != null)
@@ -59,24 +58,24 @@ public class Graph {
         Vertex ver1 = new Vertex(vertexName1);
         Vertex ver2 = new Vertex(vertexName2);
         //if (!hasVertex(vertexName1)) {
-        List<Vertex> v = neighbors.get(ver1);
-        neighbors.remove(ver1);
-        neighbors.put(ver2, v);
-        for (List<Vertex> val : neighbors.values()) {
-            if (val.contains(ver1)) {
-                int re = val.indexOf(ver1);
-                val.set(re, ver2);
+            List<Vertex> v = neighbors.get(ver1);
+            neighbors.remove(ver1);
+            neighbors.put(ver2, v);
+            for (List<Vertex> val : neighbors.values()) {
+                if (val.contains(ver1)) {
+                    int re = val.indexOf(ver1);
+                    val.set(re, ver2);
+                }
+            }
+            for (List<Vertex> key : edge.keySet()) {
+                if (key.contains(ver1)) {
+                    int re = key.indexOf(ver1);
+                    key.set(re, ver2);
+                }
             }
         }
-        for (List<Vertex> key : edge.keySet()) {
-            if (key.contains(ver1)) {
-                int re = key.indexOf(ver1);
-                key.set(re, ver2);
-            }
-        }
-        //  }
-        // throw new IllegalArgumentException();
-    }
+       // throw new IllegalArgumentException();
+    //}
 
     public void changeWeight(String start, String end, int newWeight) {
         Vertex ver1 = new Vertex(start);
@@ -90,20 +89,20 @@ public class Graph {
         } else throw new IllegalArgumentException();
     }
 
-    public List<Vertex> outgoing(String vertexName) {
-        if (!hasVertex(vertexName))
-            return neighbors.get(new Vertex(vertexName));
-        else throw new IllegalArgumentException();
+    public Set<Vertex> outgoing(String vertexName) {
+        if (!hasVertex(vertexName)) {
+            List<Vertex> newN = neighbors.get(new Vertex(vertexName));
+            return new HashSet<Vertex>(newN);
+        } else throw new IllegalArgumentException();
     }
 
-    public List<Vertex> incoming(String vertexName) {
+    public Set<Vertex> incoming(String vertexName) {
         Vertex ver = new Vertex(vertexName);
         List<Vertex> in = new ArrayList<Vertex>();
         for (Vertex key : neighbors.keySet())
             if (neighbors.get(key).contains(ver))
                 in.add(key);
-        return in;
+        return new HashSet<Vertex>(in);
     }
-
 
 }
