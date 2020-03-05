@@ -57,7 +57,9 @@ public class Graph {
     public void renameVertex(String vertexName1, String vertexName2) {
         Vertex ver1 = new Vertex(vertexName1);
         Vertex ver2 = new Vertex(vertexName2);
-        //if (!hasVertex(vertexName1)) {
+        if (hasVertex(vertexName1))
+            throw new IllegalArgumentException();
+        else {
             List<Vertex> v = neighbors.get(ver1);
             neighbors.remove(ver1);
             neighbors.put(ver2, v);
@@ -74,8 +76,7 @@ public class Graph {
                 }
             }
         }
-       // throw new IllegalArgumentException();
-    //}
+    }
 
     public void changeWeight(String start, String end, int newWeight) {
         Vertex ver1 = new Vertex(start);

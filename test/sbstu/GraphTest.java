@@ -1,7 +1,9 @@
 package sbstu;
 
+import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.*;
 
@@ -10,10 +12,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class GraphTest {
     private Graph testGraph = new Graph();
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @BeforeEach
     void init() {
         testGraph = new Graph();
 
+    }
+
+    @Test
+    void deleteVertex() {
+        thrown.expect(IllegalArgumentException.class);
+        testGraph.deleteVertex("F");
+        thrown = ExpectedException.none();
     }
 
     @Test
