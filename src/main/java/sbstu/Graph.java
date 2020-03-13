@@ -6,7 +6,7 @@ public class Graph {
     private Set<Vertex> vertices = new HashSet<>();
     private Map<Pair<Vertex, Vertex>, Integer> edge = new HashMap<Pair<Vertex, Vertex>, Integer>();
 
-    public boolean hasVertex(String vertexName) {
+    private boolean hasVertex(String vertexName) {
         Vertex ver = new Vertex(vertexName);
         return vertices.contains(ver);
     }
@@ -22,13 +22,11 @@ public class Graph {
         Vertex ver = new Vertex(vertexName);
         if (hasVertex(vertexName)) {
             vertices.remove(ver);
-            //edge.keySet().stream().map(e->e.);
-            for (Pair<Vertex, Vertex> pr : edge.keySet()) {
-                Vertex start = pr.getStart();
-                Vertex end = pr.getEnd();
-                if (start == ver)
+            Set<Pair<Vertex, Vertex>> newEdge = new HashSet<>(edge.keySet());
+            for (Pair<Vertex, Vertex> pr : newEdge) {
+                if (ver.equals(pr.getStart()))
                     edge.remove(pr);
-                if (end == ver);
+                if (ver.equals(pr.getEnd()))
                     edge.remove(pr);
             }
             return true;
@@ -58,17 +56,24 @@ public class Graph {
     public boolean renameVertex(String vertexName1, String vertexName2) {
         Vertex ver1 = new Vertex(vertexName1);
         Vertex ver2 = new Vertex(vertexName2);
-        if (!hasVertex(vertexName1)) {
+        if (!hasVertex(vertexName1))
             return false;
-        } else {
+        else {
             vertices.remove(ver1);
             vertices.add(ver2);
-            for (Pair<Vertex, Vertex> key : edge.keySet()) {
-                if (key.getStart() == ver1) {
-                    key.setStart(ver2);
+            Map<Pair<Vertex, Vertex>, Integer> ne = new HashMap<>(edge);
+            for (Pair<Vertex, Vertex> key : ne.keySet()) {
+                if (ver1.equals(key.getStart())) {
+                    int nw = ne.get(key);
+                    Pair<Vertex, Vertex> np = new Pair<>(ver2, key.getEnd());
+                    edge.remove(key);
+                    edge.put(np, nw);
                 }
-                if (key.getEnd() == ver1) {
-                    key.setEnd(ver2);
+                if (ver1.equals(key.getEnd())) {
+                    int nw = ne.get(key);
+                    Pair<Vertex, Vertex> np = new Pair<>(key.getStart(), ver2);
+                    edge.remove(key);
+                    edge.put(np, nw);
                 }
             }
             return true;

@@ -9,14 +9,6 @@ public class Pair<S, E> {
         this.end = end;
     }
 
-    public void setStart(S newStart) {
-        newStart = start;
-    }
-
-    public void setEnd(E newEnd) {
-        newEnd = end;
-    }
-
     public S getStart() {
         return start;
     }
@@ -40,8 +32,8 @@ public class Pair<S, E> {
         if (this == obj) return true;
         if (!(obj instanceof Pair))
             return false;
-        Pair newpair = (Pair) obj;
-        return this.start.equals(newpair.getStart()) && this.end.equals(newpair.getEnd());
+        Pair newPair = (Pair) obj;
+        return this.start.equals(newPair.getStart()) && this.end.equals(newPair.getEnd());
     }
 
 }
